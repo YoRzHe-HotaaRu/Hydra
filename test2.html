@@ -2001,6 +2001,7 @@ Signature: [Signature]</code>
         const mobileNavToggle = document.getElementById('mobile-nav-toggle');
         const navMenu = document.getElementById('nav-menu');
         const showNavButton = document.getElementById('show-nav-button');
+        let isNavManuallyShown = false;
         
         // Check if we're on mobile
         function isMobile() {
@@ -2041,20 +2042,10 @@ Signature: [Signature]</code>
         showNavButton.addEventListener('click', function() {
             navMenu.classList.remove('hidden');
             showNavButton.style.display = 'none';
+            isNavManuallyShown = true;
         });
         
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', function() {
-                if (isMobile() && navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                    mobileNavToggle.classList.remove('active');
-                    const icon = mobileNavToggle.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-        });
+        
         
         // Scroll to top functionality
         function scrollToTop() {
@@ -2269,16 +2260,34 @@ Signature: [Signature]</code>
             }, 1500);
         }
 
-        // Smooth scrolling for navigation links
+        // --- ADD THIS NEW COMBINED BLOCK ---
+        // Handles smooth scrolling, mobile menu closing, and desktop nav visibility
         document.querySelectorAll('.nav-menu a').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+                // 1. Stop the link from jumping
+                e.preventDefault(); 
+
+                // 2. Tell the scroll listener NOT to hide the nav on desktop
+                if (!isMobile()) {
+                    isNavManuallyShown = true;
+                }
+
+                // 3. Find the target and scroll to it
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
+                }
+
+                // 4. Close the mobile menu (if it's open)
+                if (isMobile() && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileNavToggle.classList.remove('active');
+                    const icon = mobileNavToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
                 }
             });
         });
@@ -2303,21 +2312,24 @@ Signature: [Signature]</code>
             if (!isMobile()) {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
-                // Only apply the effect after scrolling past the threshold
                 if (scrollTop > scrollThreshold) {
                     if (scrollTop > lastScrollTop) {
-                        // Scrolling down - hide the navbar
-                        navMenu.classList.remove('hidden');
-                        showNavButton.style.display = 'flex';
+                        // Scrolling down - HIDE
+                        if (!isNavManuallyShown) { // <-- ADD THIS CHECK
+                            navMenu.classList.add('hidden');
+                            showNavButton.style.display = 'flex';
+                        }
                     } else {
-                        // Scrolling up - show the navbar
+                        // Scrolling up - SHOW
                         navMenu.classList.remove('hidden');
                         showNavButton.style.display = 'none';
+                        isNavManuallyShown = false; // <-- ADD THIS LINE
                     }
                 } else {
                     // At the top of the page - always show navbar
                     navMenu.classList.remove('hidden');
                     showNavButton.style.display = 'none';
+                    isNavManuallyShown = false; // <-- ADD THIS LINE
                 }
                 
                 lastScrollTop = scrollTop;
