@@ -97,11 +97,16 @@
             line-height: 1.8;
         }
 
+        /* Enhanced Navigation Styles */
+        .nav-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
         .nav-menu {
             background: white;
             padding: 15px;
             border-radius: 8px;
-            margin-bottom: 30px;
             position: sticky;
             top: 20px;
             z-index: 100;
@@ -158,6 +163,103 @@
 
         .nav-menu a i {
             margin-right: 5px;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 101;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-toggle:hover {
+            background: #2a3f5f;
+            transform: scale(1.1);
+        }
+
+        .mobile-nav-toggle.active {
+            background: var(--accent-color);
+        }
+
+        .nav-menu.mobile {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            border-radius: 0;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            padding-top: 70px;
+        }
+
+        .nav-menu.mobile.active {
+            right: 0;
+        }
+
+        .nav-menu.mobile ul {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0;
+        }
+
+        .nav-menu.mobile a {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0;
+        }
+
+        .nav-menu.mobile a:hover {
+            background: var(--light-bg);
+        }
+
+        .nav-menu.mobile a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Desktop Show/Hide Button */
+        .show-nav-button {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .show-nav-button:hover {
+            background: #2a3f5f;
+            transform: scale(1.1);
+        }
+
+        .nav-menu.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         .section {
@@ -439,9 +541,18 @@
                 font-size: 2em;
             }
 
-            .nav-menu ul {
-                flex-direction: column;
+            .mobile-nav-toggle {
+                display: flex;
                 align-items: center;
+                justify-content: center;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .nav-menu.mobile {
+                display: block;
             }
 
             .comparison-grid {
@@ -450,6 +561,14 @@
 
             .pros-cons {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .show-nav-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -637,20 +756,32 @@
             </div>
         </div>
 
-        <nav class="nav-menu" id="nav-menu">
-            <ul>
-                <li><a href="#video-demo"><i class="fas fa-play-circle"></i> <span>Video Demo</span></a></li>
-                <li><a href="#introduction"><i class="fas fa-rocket"></i> <span>Introduction</span></a></li>
-                <li><a href="#what-is-hydra"><i class="fas fa-search"></i> <span>What is Hydra?</span></a></li>
-                <li><a href="#brute-force"><i class="fas fa-explosion"></i> <span>Brute Force Attacks</span></a></li>
-                <li><a href="#installation"><i class="fas fa-download"></i> <span>Installation</span></a></li>
-                <li><a href="#commands"><i class="fas fa-cogs"></i> <span>Commands</span></a></li>
-                <li><a href="#examples"><i class="fas fa-file-alt"></i> <span>Examples</span></a></li>
-                <li><a href="#comparison"><i class="fas fa-balance-scale"></i> <span>Tool Comparison</span></a></li>
-                <li><a href="#ethics"><i class="fas fa-gavel"></i> <span>Ethics & Legal</span></a></li>
-                <li><a href="#importance"><i class="fas fa-bullseye"></i> <span>Why Learn Hydra?</span></a></li>
-            </ul>
-        </nav>
+        <!-- Mobile Navigation Toggle -->
+        <button class="mobile-nav-toggle" id="mobile-nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Desktop Show Navigation Button -->
+        <button class="show-nav-button" id="show-nav-button">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="nav-container">
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#video-demo"><i class="fas fa-play-circle"></i> <span>Video Demo</span></a></li>
+                    <li><a href="#introduction"><i class="fas fa-rocket"></i> <span>Introduction</span></a></li>
+                    <li><a href="#what-is-hydra"><i class="fas fa-search"></i> <span>What is Hydra?</span></a></li>
+                    <li><a href="#brute-force"><i class="fas fa-explosion"></i> <span>Brute Force Attacks</span></a></li>
+                    <li><a href="#installation"><i class="fas fa-download"></i> <span>Installation</span></a></li>
+                    <li><a href="#commands"><i class="fas fa-cogs"></i> <span>Commands</span></a></li>
+                    <li><a href="#examples"><i class="fas fa-file-alt"></i> <span>Examples</span></a></li>
+                    <li><a href="#comparison"><i class="fas fa-balance-scale"></i> <span>Tool Comparison</span></a></li>
+                    <li><a href="#ethics"><i class="fas fa-gavel"></i> <span>Ethics & Legal</span></a></li>
+                    <li><a href="#importance"><i class="fas fa-bullseye"></i> <span>Why Learn Hydra?</span></a></li>
+                </ul>
+            </nav>
+        </div>
 
         <section id="video-demo" class="section fade-in video-section">
             <h2><i class="fas fa-play-circle"></i> Hydra Video Demonstration</h2>
@@ -1866,6 +1997,65 @@ Signature: [Signature]</code>
     <button class="scroll-top" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
 
     <script>
+        // Mobile Navigation Toggle
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const showNavButton = document.getElementById('show-nav-button');
+        
+        // Check if we're on mobile
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+        
+        // Initialize mobile/desktop navigation
+        function initNavigation() {
+            if (isMobile()) {
+                navMenu.classList.add('mobile');
+                navMenu.classList.remove('hidden');
+                showNavButton.style.display = 'none';
+            } else {
+                navMenu.classList.remove('mobile');
+                navMenu.classList.remove('active');
+                mobileNavToggle.classList.remove('active');
+                showNavButton.style.display = 'flex';
+            }
+        }
+        
+        // Toggle mobile navigation
+        mobileNavToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            mobileNavToggle.classList.toggle('active');
+            
+            // Change icon
+            const icon = mobileNavToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Show navigation button click handler
+        showNavButton.addEventListener('click', function() {
+            navMenu.classList.remove('hidden');
+            showNavButton.style.display = 'none';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (isMobile() && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileNavToggle.classList.remove('active');
+                    const icon = mobileNavToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+        
         // Scroll to top functionality
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2095,32 +2285,43 @@ Signature: [Signature]</code>
 
         // Initialize complexity calculator on load
         window.addEventListener('load', function() {
+            initNavigation();
             calculateComplexity();
         });
 
-        // Smart navigation bar that minimizes when scrolling down
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            initNavigation();
+        });
+
+        // Desktop navigation hide/show behavior
         let lastScrollTop = 0;
-        let scrollThreshold = 100; // Minimum scroll before minimizing
-        const navMenu = document.getElementById('nav-menu');
+        let scrollThreshold = 100; // Minimum scroll before hiding
 
         window.addEventListener('scroll', function() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // Only apply the effect after scrolling past the threshold
-            if (scrollTop > scrollThreshold) {
-                if (scrollTop > lastScrollTop) {
-                    // Scrolling down - minimize the navbar
-                    navMenu.classList.add('minimized');
+            // Only apply this behavior on desktop
+            if (!isMobile()) {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Only apply the effect after scrolling past the threshold
+                if (scrollTop > scrollThreshold) {
+                    if (scrollTop > lastScrollTop) {
+                        // Scrolling down - hide the navbar
+                        navMenu.classList.add('hidden');
+                        showNavButton.style.display = 'flex';
+                    } else {
+                        // Scrolling up - show the navbar
+                        navMenu.classList.remove('hidden');
+                        showNavButton.style.display = 'none';
+                    }
                 } else {
-                    // Scrolling up - restore the navbar
-                    navMenu.classList.remove('minimized');
+                    // At the top of the page - always show navbar
+                    navMenu.classList.remove('hidden');
+                    showNavButton.style.display = 'none';
                 }
-            } else {
-                // At the top of the page - always show full navbar
-                navMenu.classList.remove('minimized');
+                
+                lastScrollTop = scrollTop;
             }
-            
-            lastScrollTop = scrollTop;
         });
 
         console.log('Hydra Educational Guide loaded successfully! 🔐');
